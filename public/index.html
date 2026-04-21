@@ -1,0 +1,643 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080a0f;
+    --bg-card: #111520;
+    --bg-card2: #171c2e;
+    --accent: #e8b44a;
+    --accent-glow: rgba(232,180,74,0.15);
+    --text: #f0ede8;
+    --muted: #8a8fa8;
+    --faint: #3a3f58;
+    --border: rgba(255,255,255,0.07);
+    --red: #e84a4a;
+    --green: #4ae89a;
+    --display: 'Bebas Neue', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  #app {
+    font-family: var(--body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 600px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,10,15,0.9);
+    backdrop-filter: blur(12px);
+    position: relative;
+    z-index: 10;
+    gap: 32px;
+  }
+  .logo {
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+  }
+  .logo-icon { font-size: 12px; }
+  nav .nav-links { display: flex; gap: 4px; flex: 1; }
+  .nav-link {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: none;
+    border: none;
+    font-family: var(--body);
+  }
+  .nav-link:hover { color: var(--text); background: var(--border); }
+  .nav-link.active { color: var(--accent); background: var(--accent-glow); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .btn-ghost {
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--body);
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--faint); }
+  .btn-primary {
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--accent);
+    color: #0a0800;
+    border: none;
+    cursor: pointer;
+    font-family: var(--body);
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #f0c05a; transform: translateY(-1px); }
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #c49538);
+    color: #0a0800;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+
+  /* ── VIEWS ── */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── HOME ── */
+  .home-hero {
+    position: relative;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 28px 32px;
+    overflow: hidden;
+  }
+  .hero-shards {
+    position: absolute; inset: 0;
+    display: flex;
+  }
+  .shard {
+    flex: 1;
+    transform: skewX(-3deg);
+    opacity: 0.3;
+  }
+  .hero-veil {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, var(--bg) 18%, transparent 55%, var(--bg) 100%),
+                linear-gradient(to top, var(--bg) 0%, transparent 60%);
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 12px;
+  }
+  .eyebrow-dot {
+    width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+  .headline {
+    font-family: var(--display);
+    font-size: 58px;
+    letter-spacing: 0.03em;
+    line-height: 0.95;
+    margin-bottom: 14px;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .tagline { font-size: 14px; color: var(--muted); max-width: 360px; line-height: 1.65; margin-bottom: 22px; }
+  .hero-ctas { display: flex; gap: 12px; }
+  .hero-cta-primary {
+    padding: 12px 24px; background: var(--accent); color: #0a0800;
+    border-radius: 6px; font-size: 14px; font-weight: 700;
+    border: none; cursor: pointer; font-family: var(--body);
+    transition: all 0.2s;
+  }
+  .hero-cta-primary:hover { background: #f0c05a; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(232,180,74,.3); }
+  .hero-cta-ghost {
+    padding: 12px 22px; background: transparent; color: var(--muted);
+    border-radius: 6px; font-size: 14px; font-weight: 500;
+    border: 1px solid var(--border); cursor: pointer; font-family: var(--body);
+    transition: all 0.2s;
+  }
+  .hero-cta-ghost:hover { color: var(--text); border-color: var(--faint); }
+
+  /* Poster strip */
+  .poster-strip {
+    display: flex; gap: 14px; padding: 0 28px 28px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .poster-strip::-webkit-scrollbar { display: none; }
+  .poster-chip {
+    flex-shrink: 0;
+    width: 100px; height: 148px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .poster-chip:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,.7); }
+  .chip-bg { position: absolute; inset: 0; }
+  .chip-title {
+    position: absolute;
+    bottom: 9px; left: 9px; right: 9px;
+    font-family: var(--display);
+    font-size: 14px; letter-spacing: 0.04em;
+    color: var(--text); line-height: 1.1;
+    text-shadow: 0 1px 8px rgba(0,0,0,.9);
+  }
+
+  /* Features */
+  .features {
+    padding: 28px 28px 32px;
+    border-top: 1px solid var(--border);
+    background: #0d1117;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: 30px; letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .feature-card:hover { border-color: rgba(232,180,74,0.25); transform: translateY(-2px); }
+  .fc-icon { font-size: 22px; margin-bottom: 10px; }
+  .fc-title { font-size: 14px; font-weight: 500; margin-bottom: 5px; }
+  .fc-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+  /* ── LOGIN ── */
+  .login-view {
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 40px 20px;
+  }
+  .login-bg {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .film-strip {
+    position: absolute;
+    width: 80px; height: 130%;
+    top: -15%; left: -20px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0, transparent 30px,
+      rgba(255,255,255,.025) 30px, rgba(255,255,255,.025) 40px
+    );
+    border-left: 1px solid rgba(255,255,255,.03);
+    border-right: 1px solid rgba(255,255,255,.03);
+    transform: rotate(-5deg);
+  }
+  .film-strip-r {
+    left: auto; right: -20px; transform: rotate(5deg);
+  }
+  .auth-card {
+    width: 100%; max-width: 380px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    position: relative; z-index: 1;
+    animation: slideUp 0.35s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes slideUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  .card-brand {
+    display: flex; align-items: center; gap: 7px;
+    font-family: var(--display);
+    font-size: 20px; letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .card-title { font-size: 22px; font-weight: 500; margin-bottom: 5px; letter-spacing: -0.01em; }
+  .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 26px; }
+  .form { display: flex; flex-direction: column; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field-label {
+    font-size: 12.5px; font-weight: 500; color: var(--muted);
+    display: flex; justify-content: space-between;
+  }
+  .field-label a { color: var(--accent); font-weight: 400; cursor: pointer; }
+  .field-input {
+    padding: 10px 13px;
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: var(--body);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  .field-input::placeholder { color: var(--faint); }
+  .field-input:focus {
+    outline: none;
+    border-color: rgba(232,180,74,0.5);
+    box-shadow: 0 0 0 3px rgba(232,180,74,.12);
+  }
+  .submit-btn {
+    width: 100%; padding: 12px;
+    background: var(--accent); color: #0a0800;
+    font-size: 14px; font-weight: 700;
+    border: none; border-radius: 6px;
+    font-family: var(--body);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 4px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 44px;
+  }
+  .submit-btn:hover:not(:disabled) { background: #f0c05a; transform: translateY(-1px); box-shadow: 0 5px 20px rgba(232,180,74,.3); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(0,0,0,.2);
+    border-top-color: #0a0800;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .error-msg {
+    display: flex; align-items: center; gap: 7px;
+    padding: 10px 12px;
+    background: rgba(232,74,74,.1);
+    border: 1px solid rgba(232,74,74,.25);
+    border-radius: 6px;
+    color: var(--red); font-size: 13px;
+  }
+  .switch-text {
+    text-align: center; margin-top: 20px;
+    font-size: 13px; color: var(--faint);
+  }
+  .switch-link { color: var(--accent); cursor: pointer; font-weight: 500; }
+  .switch-link:hover { text-decoration: underline; }
+  .demo-hint {
+    margin-top: 16px; padding: 10px 13px;
+    background: #0d1117; border: 1px dashed var(--border);
+    border-radius: 6px; font-size: 11.5px; color: var(--faint);
+    display: flex; flex-direction: column; gap: 3px;
+  }
+
+  /* ── LOGGED-IN home indicator ── */
+  .user-chip {
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer;
+    padding: 4px 10px 4px 4px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .user-chip:hover { background: var(--border); }
+  .username { font-size: 13px; color: var(--text); font-weight: 500; }
+</style>
+
+<div id="app">
+  <!-- NAV -->
+  <nav>
+    <div class="logo" onclick="showHome()">
+      <span class="logo-icon">▶</span> KINNECT
+    </div>
+    <div class="nav-links">
+      <button class="nav-link active" id="nav-home" onclick="showHome()">Home</button>
+      <button class="nav-link" id="nav-browse" onclick="alert('Browse page — connect to /api/movies')">Browse</button>
+      <button class="nav-link" id="nav-rentals" onclick="alert('My Rentals — requires login')">My Rentals</button>
+      <button class="nav-link" id="nav-party" onclick="alert('Watch Party — coming in Milestone 2')">Watch Party</button>
+    </div>
+    <div class="nav-right" id="nav-right">
+      <button class="btn-ghost" onclick="showLogin()">Sign In</button>
+      <button class="btn-primary" onclick="showLogin()">Join Free</button>
+    </div>
+  </nav>
+
+  <!-- HOME VIEW -->
+  <div class="view active" id="view-home">
+    <!-- Hero -->
+    <div class="home-hero">
+      <div class="hero-shards" id="hero-shards"></div>
+      <div class="hero-veil"></div>
+      <div class="hero-content">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> Rent · Watch · Connect</div>
+        <h1 class="headline">Cinema lives<br><em>together.</em></h1>
+        <p class="tagline">Browse thousands of films, rent in seconds, and host Watch Parties with friends.</p>
+        <div class="hero-ctas" id="hero-ctas">
+          <button class="hero-cta-primary" onclick="showLogin()">Get Started Free</button>
+          <button class="hero-cta-ghost" onclick="showLogin()">Sign In</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Poster strip -->
+    <div class="poster-strip" id="poster-strip"></div>
+
+    <!-- Features -->
+    <div class="features">
+      <h2 class="section-title">Everything in one reel.</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="fc-icon">🎞️</div>
+          <div class="fc-title">Vast Catalog</div>
+          <div class="fc-desc">Thousands of films across every genre, updated by our moderation team.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">⚡</div>
+          <div class="fc-title">Instant Rental</div>
+          <div class="fc-desc">Rent any available title in one click. Your 7-day window starts immediately.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🎉</div>
+          <div class="fc-title">Watch Parties</div>
+          <div class="fc-desc">Host synchronized viewing sessions with live-sync playback and group chat.</div>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon">🤖</div>
+          <div class="fc-title">Smart Picks</div>
+          <div class="fc-desc">Content-based recommendations that learn your taste over time.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN VIEW -->
+  <div class="view" id="view-login">
+    <div class="login-view">
+      <div class="login-bg">
+        <div class="film-strip"></div>
+        <div class="film-strip film-strip-r"></div>
+      </div>
+      <div class="auth-card" id="auth-card">
+        <div class="card-brand"><span>▶</span> KINNECT</div>
+        <!-- Login mode -->
+        <div id="mode-login">
+          <div class="card-title">Welcome back</div>
+          <div class="card-sub">Sign in to continue watching</div>
+          <div class="form" id="login-form">
+            <div id="login-error" style="display:none" class="error-msg">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span id="login-error-text">Invalid credentials</span>
+            </div>
+            <div class="field">
+              <div class="field-label">Email</div>
+              <input class="field-input" id="login-email" type="email" placeholder="you@example.com">
+            </div>
+            <div class="field">
+              <div class="field-label">Password <a onclick="alert('Reset email sent (placeholder)')">Forgot?</a></div>
+              <input class="field-input" id="login-pw" type="password" placeholder="••••••••">
+            </div>
+            <button class="submit-btn" id="login-btn" onclick="doLogin()">Sign In</button>
+          </div>
+          <div class="switch-text">Don't have an account? <span class="switch-link" onclick="showRegister()">Create one</span></div>
+        </div>
+        <!-- Register mode -->
+        <div id="mode-register" style="display:none">
+          <div class="card-title">Create account</div>
+          <div class="card-sub">Join Kinnect and start watching together</div>
+          <div class="form">
+            <div id="reg-error" style="display:none" class="error-msg">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span id="reg-error-text">Error</span>
+            </div>
+            <div class="field">
+              <div class="field-label">Name</div>
+              <input class="field-input" id="reg-name" type="text" placeholder="Your name">
+            </div>
+            <div class="field">
+              <div class="field-label">Email</div>
+              <input class="field-input" id="reg-email" type="email" placeholder="you@example.com">
+            </div>
+            <div class="field">
+              <div class="field-label">Password</div>
+              <input class="field-input" id="reg-pw" type="password" placeholder="Min. 6 characters">
+            </div>
+            <button class="submit-btn" id="reg-btn" onclick="doRegister()">Create Account</button>
+          </div>
+          <div class="switch-text">Already have an account? <span class="switch-link" onclick="showLoginMode()">Sign in</span></div>
+        </div>
+        <div class="demo-hint">
+          <span>Demo: any email + 6-char password</span>
+          <span>Use admin@... for moderator access</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const MOVIES = [
+  { id:1, title:'Movie 1',   bg:'#1a0a2e', accent:'#7b2fff' },
+  { id:2, title:'Movie 2',     bg:'#061a28', accent:'#2ab8d8' },
+  { id:3, title:'Movie 3',  bg:'#1f0a08', accent:'#e84a2a' },
+  { id:4, title:'Movie 4',bg:'#0f1208', accent:'#a8c84a' },
+  { id:5, title:'Movie 5',     bg:'#040e1a', accent:'#4ab8e8' },
+  { id:6, title:'Movie 6', bg:'#1a1508', accent:'#e8c84a' },
+];
+
+let currentUser = null;
+let currentView = 'home';
+
+function buildUI() {
+  // Shards
+  const sc = document.getElementById('hero-shards');
+  MOVIES.slice(0,5).forEach(m => {
+    const d = document.createElement('div');
+    d.className = 'shard';
+    d.style.background = `radial-gradient(ellipse at 40% 30%, ${m.accent}, transparent 65%), ${m.bg}`;
+    sc.appendChild(d);
+  });
+  // Poster chips
+  const ps = document.getElementById('poster-strip');
+  MOVIES.forEach(m => {
+    const c = document.createElement('div');
+    c.className = 'poster-chip';
+    c.innerHTML = `
+      <div class="chip-bg" style="background:radial-gradient(circle at 35% 25%, ${m.accent}, transparent 65%), ${m.bg}; position:absolute;inset:0;"></div>
+      <div class="chip-title" style="position:absolute;bottom:9px;left:9px;right:9px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.04em;color:#f0ede8;text-shadow:0 1px 8px rgba(0,0,0,.9);">${m.title}</div>
+    `;
+    c.onclick = () => alert(`Movie detail: ${m.title}\nWould route to /movie/${m.id}`);
+    ps.appendChild(c);
+  });
+}
+
+function showHome() {
+  setView('home');
+  document.getElementById('nav-home').classList.add('active');
+  document.getElementById('nav-home').classList.remove('inactive');
+}
+
+function showLogin() {
+  setView('login');
+  showLoginMode();
+}
+
+function setView(v) {
+  currentView = v;
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+  if (v === 'home') document.getElementById('nav-home').classList.add('active');
+}
+
+function showLoginMode() {
+  document.getElementById('mode-login').style.display = '';
+  document.getElementById('mode-register').style.display = 'none';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+function showRegister() {
+  document.getElementById('mode-login').style.display = 'none';
+  document.getElementById('mode-register').style.display = '';
+  document.getElementById('reg-error').style.display = 'none';
+}
+
+function setLoading(btnId, loading) {
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  btn.innerHTML = loading ? '<div class="spinner"></div>' : btn.dataset.label;
+}
+
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pw = document.getElementById('login-pw').value;
+  const errEl = document.getElementById('login-error');
+  const errTxt = document.getElementById('login-error-text');
+  errEl.style.display = 'none';
+
+  if (!email || !pw) { errTxt.textContent = 'Please fill in all fields.'; errEl.style.display = 'flex'; return; }
+  if (pw.length < 6) { errTxt.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'flex'; return; }
+
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+
+  setTimeout(() => {
+    currentUser = {
+      name: email.split('@')[0],
+      email,
+      role: email.startsWith('admin') ? 'moderator' : 'customer'
+    };
+    btn.disabled = false;
+    btn.innerHTML = 'Sign In';
+    onLogin();
+  }, 900);
+}
+
+function doRegister() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pw = document.getElementById('reg-pw').value;
+  const errEl = document.getElementById('reg-error');
+  const errTxt = document.getElementById('reg-error-text');
+  errEl.style.display = 'none';
+
+  if (!name || !email || !pw) { errTxt.textContent = 'Please fill in all fields.'; errEl.style.display = 'flex'; return; }
+  if (pw.length < 6) { errTxt.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'flex'; return; }
+
+  const btn = document.getElementById('reg-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div>';
+
+  setTimeout(() => {
+    currentUser = { name, email, role: 'customer' };
+    btn.disabled = false;
+    btn.innerHTML = 'Create Account';
+    onLogin();
+  }, 900);
+}
+
+function onLogin() {
+  // Update nav right
+  const navRight = document.getElementById('nav-right');
+  const initial = currentUser.name[0].toUpperCase();
+  const badge = currentUser.role === 'moderator' ? ' <span style="font-size:10px;background:rgba(232,180,74,.15);color:var(--accent);border:1px solid rgba(232,180,74,.3);padding:1px 6px;border-radius:10px;margin-left:4px;">Mod</span>' : '';
+  navRight.innerHTML = `
+    <div class="user-chip" onclick="doLogout()">
+      <div class="avatar">${initial}</div>
+      <span class="username">${currentUser.name}${badge}</span>
+    </div>
+  `;
+  // Update hero CTAs
+  document.getElementById('hero-ctas').innerHTML = `
+    <button class="hero-cta-primary" onclick="alert('Browse page — connect to GET /api/movies')">Browse Films →</button>
+    <button class="hero-cta-ghost" onclick="alert('My Rentals — connects to GET /api/rentals')">My Rentals</button>
+  `;
+  showHome();
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('nav-right').innerHTML = `
+    <button class="btn-ghost" onclick="showLogin()">Sign In</button>
+    <button class="btn-primary" onclick="showLogin()">Join Free</button>
+  `;
+  document.getElementById('hero-ctas').innerHTML = `
+    <button class="hero-cta-primary" onclick="showLogin()">Get Started Free</button>
+    <button class="hero-cta-ghost" onclick="showLogin()">Sign In</button>
+  `;
+  // reset forms
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pw').value = '';
+  document.getElementById('reg-name').value = '';
+  document.getElementById('reg-email').value = '';
+  document.getElementById('reg-pw').value = '';
+}
+
+buildUI();
+</script>
